@@ -16,8 +16,8 @@ import { PrivateUploadsController } from './uploads/private/controller/private.u
 import { PrivateUploadsModule } from './uploads/private/modules/private.uploads.module';
 import { User } from './users/entities/user/user.entity';
 import { PasswordReset } from './users/entities/reset-password/password.reset.entity';
-import { PasswordResetController } from "./users/controller/reset-password.controller";
-import { ResetPasswordModule } from "./users/module/reset-password.module";
+import { PasswordResetController } from './users/controller/reset-password.controller';
+import { ResetPasswordModule } from './users/module/reset-password.module';
 
 @Module({
   imports: [
