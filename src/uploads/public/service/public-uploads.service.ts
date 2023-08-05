@@ -4,10 +4,10 @@ import { MailService } from '../../../mail/mail.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { BaseUploadService } from '../../base/base-upload/base-upload.service';
 import { Uploads } from '../entity/upload.entity';
-import { UploadDto } from '../dto/uploadDto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseUploadDto } from '../../base/dto/baseUploadDto';
 import { InfoDto } from '../dto/info.dto';
+import { UploadDto } from '../dto/UploadDto';
 
 @Injectable()
 export class PublicUploadsService extends BaseUploadService<
