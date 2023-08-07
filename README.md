@@ -1,73 +1,183 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+  <img src="https://storage.googleapis.com/safeshare-publicimages/b0a347b1d5ba42d48f9b03fbb71556ab.png" alt="SafeShare Logo">
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# A Secure File Sharing Solution
 
-## Description
+SafeShare is a cutting-edge file sharing application designed with security at its core. In today's digital age, ensuring the safety of files and data is paramount. SafeShare addresses this concern by providing a platform where users can share files with confidence. Before any file is shared, it undergoes a rigorous virus scan to ensure it's free from any malicious content. With SafeShare, you can rest assured that every file you share or receive is safe and secure.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Whether you're sharing personal photos, important documents, or any other type of file, SafeShare ensures that your data remains uncompromised. Experience the peace of mind that comes with secure file sharing.
 
-## Installation
+Project built with NestJS. This project leverages technologies like MySQL, Elasticsearch, Google Cloud Storage (GCS), and Postmark to provide secure file sharing and user management functionalities.
 
-```bash
-$ npm install
-```
+## Features
 
-## Running the app
+- User registration and session management.
+- GCS integration for file uploads.
+- Log searching with Elasticsearch.
+- Email notifications with Postmark.
 
-```bash
-# development
-$ npm run start
+## Getting Started
 
-# watch mode
-$ npm run start:dev
+### Prerequisites
 
-# production mode
-$ npm run start:prod
-```
+- Installed Node.js and npm.
+- Running instance of MySQL database.
+- Running instance of Elasticsearch.
+- Created bucket for Google Cloud Storage.
+- An account on Postmark.
 
-## Test
+# Database Schema
 
-```bash
-# unit tests
-$ npm run test
+## Tables
 
-# e2e tests
-$ npm run test:e2e
+### 1. `user`
 
-# test coverage
-$ npm run test:cov
-```
+This table stores information about registered users.
 
-## Support
+| Column     | Type        | Description                       |
+|------------|-------------|-----------------------------------|
+| id         | INT         | Primary key for the user.         |
+| email      | VARCHAR(255)| Email address of the user.        |
+| password   | VARCHAR(255)| Encrypted password of the user.   |
+| is_active  | TINYINT     | Indicates if the user is active.  |
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+### 2. `uploads`
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+This table keeps track of all public file uploads.
+
+| Column             | Type        | Description                                 |
+|--------------------|-------------|---------------------------------------------|
+| id                 | INT         | Primary key for the upload.                 |
+| url                | VARCHAR(255)| URL where the uploaded file can be accessed.|
+| email              | VARCHAR(255)| Email of the user who uploaded the file.   |
+| original_file_name | VARCHAR(255)| Original name of the uploaded file.         |
+
+---
+
+### 3. `private_uploads`
+
+This table stores information about files that are uploaded privately.
+
+| Column             | Type        | Description                                       |
+|--------------------|-------------|---------------------------------------------------|
+| id                 | INT         | Primary key for the private upload.               |
+| url                | VARCHAR(255)| URL where the private file can be accessed.       |
+| email              | VARCHAR(255)| Email of the user who uploaded the file privately.|
+| original_file_name | VARCHAR(255)| Original name of the uploaded file.               |
+| ttl                | INT         | Time-to-live for the private file.                |
+| user_id            | INT         | Foreign key referencing the user table.           |
+| size               | INT         | Size of the uploaded file in bytes.               |
+| is_deleted         | TINYINT     | Indicates if the file has been deleted.           |
+| uploaded_file_name | TEXT        | Name of the file after being uploaded.            |
+
+---
+
+### 4. `password_resets`
+
+This table manages password reset requests.
+
+| Column       | Type        | Description                                  |
+|--------------|-------------|----------------------------------------------|
+| id           | INT         | Primary key for the password reset request.  |
+| user_id      | INT         | Foreign key referencing the user table.      |
+| token        | VARCHAR(255)| Token used for the password reset process.   |
+| created_at   | TIMESTAMP   | Timestamp when the reset request was created.|
+| completed_at | TIMESTAMP   | Timestamp when the reset was completed.      |
+
+---
+
+
+
+### Installation
+
+1. Clone the project:
+   ```bash
+   git clone [repo-link]
+   cd shareitsecurely
+
+2. Install dependencies:
+   ```bash
+   npm install
+3. Create a .env file and set the following variables:
+   ```bash
+   DATABASE_USER='your_mysql_username'
+   DATABASE_PASSWORD='your_mysql_password'
+   DATABASE_NAME='your_database_name'
+   DATABASE_PORT=your_mysql_port
+   DATABASE_HOST='your_mysql_host'
+   
+   ELASTICSEARCH_URL='your_elasticsearch_url'
+   ELASTICSEARCH_USERNAME='your_elasticsearch_username'
+   ELASTICSEARCH_PASSWORD='your_elasticsearch_password'
+   
+   GCS_BUCKET_NAME='your_gcs_bucket_name'
+   GCS_KEY_FILENAME='path_to_your_gcs_keyfile'
+   
+   POSTMARK_SERVER_TOKEN='your_postmark_server_token'
+   SHARE_LINK_TEMPLATE_ID='your_template_id'
+   INFO_MAIL_TEMPLATE_ID='your_template_id'
+   PASSWORD_RESET_TEMPLATE_ID='your_template_id'
+   
+   JWT_SECRET='your_jwt_secret'
+
+4. Start the application:
+   ```bash
+   npm run start
+
+## API Documentation Setup
+
+To set up API documentation for your NestJS application, follow the steps below:
+
+1. **Install necessary packages**:
+   First, you need to install the `@nestjs/swagger` and `swagger-ui-express` packages. If your application uses Fastify, you should install `fastify-swagger` instead.
+   ```bash
+   npm install --save @nestjs/swagger swagger-ui-express
+   ```
+
+2. **Set up Swagger in your `main.ts`**:
+   Add the following code to your `main.ts` file to set up the Swagger documentation.
+   ```typescript
+   import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+
+   // ... other imports ...
+
+   const options = new DocumentBuilder()
+     .setTitle('Iluvcoffee')
+     .setDescription('Coffee application')
+     .setVersion('1.0')
+     .build();
+
+   const document = SwaggerModule.createDocument(app, options);
+   SwaggerModule.setup('api', app, document);
+   ```
+
+3. **View the API Documentation**:
+   Once your application is running (use `npm run start:dev` if it's not), you can view the Swagger UI at:
+   [http://localhost:3000/api](http://localhost:3000/api)
+
+## Contributing
+
+If you'd like to contribute to SafeShare, please fork the repository and use a feature branch. Pull requests are warmly welcome.
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+## Support and Contact
+
+Feel free to reach out to us at [support@safeshare.com](mailto:support@safeshare.com) if you have any questions or need support.
+
+
+---
+
+🌟 **Support Me!** 🌟
+
+If you find this project helpful and want to show some love, consider buying me a coffee! Every bit of support is a huge motivation to keep the project alive and kicking. Thank you!
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-Donate-yellow.svg)](https://www.buymeacoffee.com/denizparlak)
+
+---

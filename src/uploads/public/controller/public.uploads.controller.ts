@@ -5,8 +5,10 @@ import {
   HttpStatus,
   Post,
   UploadedFile,
-  UseInterceptors, UsePipes, ValidationPipe
-} from "@nestjs/common";
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PublicUploadsService } from '../service/public-uploads.service';
 import { Throttle } from '@nestjs/throttler';
