@@ -169,7 +169,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Support and Contact
 
-Feel free to reach out to us at [support@safeshare.com](mailto:support@safeshare.com) if you have any questions or need support.
+Feel free to reach out to us at [support@safeshare.net](mailto:support@safeshare.com) if you have any questions or need support.
 
 
 ---
