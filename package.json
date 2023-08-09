@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@elastic/elasticsearch": "^7.17.11-patch.1",
+    "@google-cloud/secret-manager": "^5.0.0",
     "@google-cloud/storage": "^6.11.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.0.0",

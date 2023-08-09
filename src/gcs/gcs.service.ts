@@ -9,9 +9,7 @@ export class GcsService {
 
   constructor(private configService: ConfigService) {
     this.bucketName = configService.get('GCS_BUCKET_NAME');
-    this.storage = new Storage({
-      keyFilename: configService.get('GCS_KEY_FILENAME'),
-    });
+    this.storage = new Storage();
   }
 
   async uploadFile(
