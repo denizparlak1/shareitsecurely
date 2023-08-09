@@ -27,12 +27,7 @@ export class GcsService {
     return new Promise((resolve, reject) => {
       stream.on('error', (err) => {
         console.log(err);
-        reject(
-          new HttpException(
-            'The file could not be uploaded, check it GCS',
-            HttpStatus.INTERNAL_SERVER_ERROR,
-          ),
-        );
+        reject(new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR));
       });
 
       stream.on('finish', () => {
